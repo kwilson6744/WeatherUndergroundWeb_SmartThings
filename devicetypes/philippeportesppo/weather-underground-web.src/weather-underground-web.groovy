@@ -27,8 +27,8 @@ metadata {
 
 	tiles(scale: 2) {
 
-	standardTile("UGW_web", "device.UGW_web",  width: 6, height: 3,  canChangeIcon: false ) {
-            state "default", icon: "http://icons.wxug.com/graphics/wu2/logo_130x80.png"      }   
+	standardTile("location", "device.location",  width: 6, height: 1,  canChangeIcon: false ) {
+            state "default", icon: ""      }   
              
     standardTile("temperature", "device.temperature", width: 2, height: 2, decoration: "flat", canChangeIcon: false) {
             state "default", label: '${currentValue}º',unit:'${currentValue}', icon: "st.Weather.weather2", backgroundColor:"#e5e9ea"}  
@@ -134,7 +134,7 @@ metadata {
 
    		}
 	main("wu_main")
-	details(["UGW_web","temperature","humidity","UGWFeelsLikelevel","UGWdewpointlevel","UGW_Icon_UrlIcon","weather","refresh" ])
+	details(["location","temperature","humidity","UGWFeelsLikelevel","UGWdewpointlevel","UGW_Icon_UrlIcon","weather","refresh" ])
  	}
 }
 
@@ -155,26 +155,22 @@ log.debug "Executing 'poll'"
     refresh()
 }
 
-String convertTemperature( float temperatureCelcius, unit)
+String convertTemperature( float temperature, unit)
 {
-	float value = temperatureCelcius
-    
-    if (unit =="F")
-    {
-       value = temperatureCelcius * 1.8 + 32.0
-    }
+    float value = temperature
+	
     return value.toString().format(java.util.Locale.US,"%.1f", value)
 }
 
 // parse events into attributes
 def parse(String description) {
-	log.debug "Executing 'parse'"
+    log.debug "Executing 'parse'"
     
-   	state.snowalert=false
+    state.snowalert=false
     state.stormalert=false
     state.rainmalert=false
-	state.lowtempalert=false
-	state.hightempalert=false
+    state.lowtempalert=false
+    state.hightempalert=false
     state.lowhumidityalert=false
     state.highhumidityalert=false    
         
@@ -189,24 +185,26 @@ def forcepoll()
 
 // handle commands
 def refresh() {
-	log.debug "Executing 'refresh'"
+    log.debug "Executing 'refresh'"
     
     def mymap = getWeatherFeature("conditions")
-        
-    log.debug "response feelslike_c: ${mymap['current_observation']['feelslike_c']}"
-    log.debug "response dewpoint_c: ${mymap['current_observation']['dewpoint_c']}"
+
+    log.debug "response location: ${mymap['current_observation']['display_location']['full']}"
+    log.debug "response feelslike_f: ${mymap['current_observation']['feelslike_f']}"
+    log.debug "response dewpoint_f: ${mymap['current_observation']['dewpoint_f']}"
     log.debug "response relative_humidity: ${mymap['current_observation']['relative_humidity']}"
-    log.debug "response temp_c: ${mymap['current_observation']['temp_c']}"
+    log.debug "response temp_f: ${mymap['current_observation']['temp_f']}"
     log.debug "response weather: ${mymap['current_observation']['weather']}"
 
     //log.debug "Generating events for UX refresh"
     def temperatureScale = getTemperatureScale()
 
     // UnderGround Weather references
-    sendEvent(name: "UGWFeelsLikelevel", value: convertTemperature(mymap['current_observation']['feelslike_c'].toFloat(),temperatureScale), unit: temperatureScale)
-    sendEvent(name: "UGWdewpointlevel", value: convertTemperature(mymap['current_observation']['dewpoint_c'].toFloat(),temperatureScale), unit: temperatureScale)
+    sendEvent(name: "location", value: mymap['current_observation']['display_location']['full']
+    sendEvent(name: "UGWFeelsLikelevel", value: convertTemperature(mymap['current_observation']['feelslike_f'].toFloat(),temperatureScale), unit: temperatureScale)
+    sendEvent(name: "UGWdewpointlevel", value: convertTemperature(mymap['current_observation']['dewpoint_f'].toFloat(),temperatureScale), unit: temperatureScale)
     sendEvent(name: "humidity", value:  mymap['current_observation']['relative_humidity'].substring(0, mymap['current_observation']['relative_humidity'].length()-1))
-    sendEvent(name: "temperature", value: convertTemperature(mymap['current_observation']['temp_c'].toFloat(),temperatureScale), unit: temperatureScale)
+    sendEvent(name: "temperature", value: convertTemperature(mymap['current_observation']['temp_f'].toFloat(),temperatureScale), unit: temperatureScale)
     sendEvent(name: "UGW_Icon_UrlIcon", value: mymap['current_observation']['icon_url'].substring(28,mymap['current_observation']['icon_url'].length()-4))
     sendEvent(name: "wu_main", value: mymap['current_observation']['icon_url'].substring(28,mymap['current_observation']['icon_url'].length()-4))
     sendEvent(name:"weather", value: mymap['current_observation']['weather'], display:true, isStateChange: true)
