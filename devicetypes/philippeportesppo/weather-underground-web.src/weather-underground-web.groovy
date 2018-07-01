@@ -28,19 +28,19 @@ metadata {
 	tiles(scale: 2) {
 
 	standardTile("location", "device.location",  width: 6, height: 1,  canChangeIcon: false ) {
-            state "default", icon: ""      }   
+            state "default"}   
              
     standardTile("temperature", "device.temperature", width: 2, height: 2, decoration: "flat", canChangeIcon: false) {
-            state "default", label: '${currentValue}º',unit:'${currentValue}', icon: "st.Weather.weather2", backgroundColor:"#e5e9ea"}  
+            state "default", label: '${currentValue}º',unit:'${currentValue}', icon: "st.Weather.weather2", backgroundColor:"#a2abad"}  
         
 	standardTile("humidity", "device.humidity", width: 2, height: 2, decoration: "flat", canChangeIcon: false) {
-            state "default", label: '${currentValue}%', icon: "st.Weather.weather12", backgroundColor:"#e5e9ea"      }
+            state "default", label: '${currentValue}%', icon: "st.Weather.weather12", backgroundColor:"#a2abad"      }
             
 	standardTile("UGWFeelsLikelevel", "device.UGWFeelsLikelevel",  width: 2, height: 2, decoration: "flat", canChangeIcon: false) {
-            state "default",  label: '${currentValue}º',unit:'${currentValue}',icon: "https://raw.githubusercontent.com/philippeportesppo/AirMentorPro2_SmartThings/master/images/realfeel.png", backgroundColor:"#e5e9ea"}
+            state "default",  label: '${currentValue}º',unit:'${currentValue}',icon: "https://raw.githubusercontent.com/philippeportesppo/AirMentorPro2_SmartThings/master/images/realfeel.png", backgroundColor:"#a2abad"}
 
 	standardTile("UGWdewpointlevel", "device.UGWdewpointlevel",  width: 2, height: 2, decoration: "flat", canChangeIcon: false) {
-            state "default", label: '${currentValue}º',unit:'${currentValue}',icon: "https://raw.githubusercontent.com/philippeportesppo/AirMentorPro2_SmartThings/master/images/dewpoint.png", backgroundColor:"#e5e9ea"}
+            state "default", label: '${currentValue}º',unit:'${currentValue}',icon: "https://raw.githubusercontent.com/philippeportesppo/AirMentorPro2_SmartThings/master/images/dewpoint.png", backgroundColor:"#a2abad"}
             
     standardTile("UGW_Icon_UrlIcon", "device.UGW_Icon_UrlIcon", decoration: "flat",   width: 2, height: 2) {
                 state "chancerain",		icon: "https://raw.githubusercontent.com/philippeportesppo/AirMentorPro2_SmartThings/master/images/chancerain.png"
