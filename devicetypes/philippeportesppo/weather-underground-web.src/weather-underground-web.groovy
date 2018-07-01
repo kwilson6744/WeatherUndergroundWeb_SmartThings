@@ -200,7 +200,7 @@ def refresh() {
     def temperatureScale = getTemperatureScale()
 
     // UnderGround Weather references
-    sendEvent(name: "location", value: mymap['current_observation']['display_location']['full']
+    sendEvent(name: "location", value: mymap['current_observation']['display_location']['full'])
     sendEvent(name: "UGWFeelsLikelevel", value: convertTemperature(mymap['current_observation']['feelslike_f'].toFloat(),temperatureScale), unit: temperatureScale)
     sendEvent(name: "UGWdewpointlevel", value: convertTemperature(mymap['current_observation']['dewpoint_f'].toFloat(),temperatureScale), unit: temperatureScale)
     sendEvent(name: "humidity", value:  mymap['current_observation']['relative_humidity'].substring(0, mymap['current_observation']['relative_humidity'].length()-1))
