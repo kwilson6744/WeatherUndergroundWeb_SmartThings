@@ -156,9 +156,11 @@ def addDevices() {
             it.device.deviceNetworkId == state.deviceId}
         log.debug "Devices installed after removal ${Ref}"
     }
+
+    def mymap = getWeatherFeature("conditions")
     // and create it again with the new settings
     subscribe(addChildDevice("philippeportesppo", "Weather Underground Web", state.deviceId, null, [
-        "label": "Weather in ${wucity},${wustate}",
+        "label": "Weather in ${mymap['current_observation']['display_location']['full']}",
         "data": [
             "wusnowalert": wusnowalert,
             "wustormalert": wustormalert,
