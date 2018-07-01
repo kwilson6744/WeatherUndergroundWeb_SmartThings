@@ -190,6 +190,7 @@ def refresh() {
     def mymap = getWeatherFeature("conditions")
 
     log.debug "response location: ${mymap['current_observation']['display_location']['full']}"
+    log.debug "response station_id: ${mymap['current_observation']['station_id']}
     log.debug "response feelslike_f: ${mymap['current_observation']['feelslike_f']}"
     log.debug "response dewpoint_f: ${mymap['current_observation']['dewpoint_f']}"
     log.debug "response relative_humidity: ${mymap['current_observation']['relative_humidity']}"
